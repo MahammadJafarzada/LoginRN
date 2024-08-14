@@ -1,7 +1,8 @@
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import React,{useState} from 'react'
 import { StatusBar } from 'expo-status-bar'
 import {Formik} from 'formik'
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import {Octicons, Ionicons,Fontisto} from '@expo/vector-icons'
 
@@ -31,6 +32,21 @@ const{ brand,darkLight, primary } = Colors;
 
 const Register = () => {
     const [hidePassword, setHidePassword] =  useState(true)
+    const[show, setShow] = useState(false)
+    const[date,setDate] = useState(new Date(2000,0,1))
+
+    const[dob,setDob] = useState()
+
+    const onChange = (event,selectedDate) => {
+        const currentDate = selectedDate || date
+        setShow(false)
+        setDate(currentDate)
+        setDob(currentDate)
+    }
+    const showDatePicker = () => {
+        setShow(true)
+    }
+
   return (
     <StyledContainer>
         <StatusBar style='dark'/>
@@ -38,6 +54,18 @@ const Register = () => {
             <PageLogo resizeMode="cover" source={require('./../assets/icon.png')}/>
             <PageTitle>Flower Crib</PageTitle>
             <SubTitle>Account Register</SubTitle>
+            {
+                show && (
+                    <DateTimePicker 
+                        testID="dateTimePicker"
+                        value={date}
+                        mode='date'
+                        is24Hour = {true}
+                        display='default'
+                        onChange={onChange}
+                    />
+                )
+            }
             <Formik
                 initialValues={{fullName:'', email:'',dateOfBirth:'', password:''}}
                 onSubmit={(values) =>{
@@ -71,7 +99,10 @@ const Register = () => {
                     placeholderTextColor={darkLight}
                     onChangeText={handleChange('dateOfBirth')}
                     onBlur={handleBlur('dateOfBirth')}
-                    value={values.email}
+                    value={dob ? dob.toDateString() : ''}
+                    isDate = {true}
+                    editable = {false}
+                    showDatePicker = {showDatePicker}
                 />
                 <MytextInput
                     label="Password"
@@ -119,7 +150,7 @@ const Register = () => {
 
   )
 }
-const MytextInput = (label,icon,isPassword,hidePassword,setHidePassword, ...props) => {
+const MytextInput = (label,icon,isPassword,hidePassword,setHidePassword,showDatePicker, ...props) => {
     return (
         <View>
             <LeftIcon>
@@ -127,6 +158,12 @@ const MytextInput = (label,icon,isPassword,hidePassword,setHidePassword, ...prop
             </LeftIcon>
             <StyledInputLabel>{label}</StyledInputLabel>
             <StyledTextInput {...props}/>
+            {!isDate && <StyledTextInput {...props}/>}
+            {isDate && (
+                <TouchableOpacity onPress={showDatePicker}>
+                    <StyledTextInput {...props}/>
+                </TouchableOpacity>
+            )}
             {isPassword && (
                 <RightIcon onPress={()=>setHidePassword('hidePassword')}>
                     <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size = {30} color={darkLight}/>
