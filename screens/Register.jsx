@@ -1,10 +1,9 @@
-import { View, Text, TouchableOpacity } from 'react-native'
-import React,{useState} from 'react'
-import { StatusBar } from 'expo-status-bar'
-import {Formik} from 'formik'
+import React, { useState } from 'react';
+import { View, TouchableOpacity } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { Formik } from 'formik';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
-import {Octicons, Ionicons,Fontisto} from '@expo/vector-icons'
+import { Octicons, Ionicons } from '@expo/vector-icons';
 
 import {
     StyledContainer,
@@ -26,150 +25,148 @@ import {
     ExtraText,
     TextLink,
     TextLinkContent
-} from '../components/styles'
+} from '../components/styles';
 
-const{ brand,darkLight, primary } = Colors;
+const { brand, darkLight } = Colors;
 
 const Register = () => {
-    const [hidePassword, setHidePassword] =  useState(true)
-    const[show, setShow] = useState(false)
-    const[date,setDate] = useState(new Date(2000,0,1))
+    const [hidePassword, setHidePassword] = useState(true);
+    const [show, setShow] = useState(false);
+    const [date, setDate] = useState(new Date(2000, 0, 1));
+    const [dob, setDob] = useState('');
 
-    const[dob,setDob] = useState()
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setShow(false);
+        setDate(currentDate);
+        setDob(currentDate.toISOString().split('T')[0]);
+    };
 
-    const onChange = (event,selectedDate) => {
-        const currentDate = selectedDate || date
-        setShow(false)
-        setDate(currentDate)
-        setDob(currentDate)
-    }
     const showDatePicker = () => {
-        setShow(true)
-    }
+        setShow(true);
+    };
 
-  return (
-    <StyledContainer>
-        <StatusBar style='dark'/>
-        <InnerContainer>
-            <PageLogo resizeMode="cover" source={require('./../assets/icon.png')}/>
-            <PageTitle>Flower Crib</PageTitle>
-            <SubTitle>Account Register</SubTitle>
-            {
-                show && (
-                    <DateTimePicker 
+    return (
+        <StyledContainer>
+            <StatusBar style="dark" />
+            <InnerContainer>
+                {/* <PageLogo resizeMode="cover" source={require('./../assets/icon.png')} /> */}
+                <PageTitle>Flower Crib</PageTitle>
+                <SubTitle>Account Register</SubTitle>
+                {show && (
+                    <DateTimePicker
                         testID="dateTimePicker"
                         value={date}
-                        mode='date'
-                        is24Hour = {true}
-                        display='default'
+                        mode="date"
+                        is24Hour={true}
+                        display="default"
                         onChange={onChange}
                     />
-                )
-            }
-            <Formik
-                initialValues={{fullName:'', email:'',dateOfBirth:'', password:''}}
-                onSubmit={(values) =>{
-                    console.log(values)
-                }}
-            >
-            {({handleChange, handleBlur, handleSubmit, values}) => (<StyledFormArea>
-                <MytextInput
-                    label="Full Name"
-                    icon="person"
-                    placeholder="Name"
-                    placeholderTextColor={darkLight}
-                    onChangeText={handleChange('fullName')}
-                    onBlur={handleBlur('fullName')}
-                    value={values.fullName}
-                />
-                <MytextInput
-                    label="Email"
-                    icon="calendar"
-                    placeholder="yourmail@gmail.com"
-                    placeholderTextColor={darkLight}
-                    onChangeText={handleChange('email')}
-                    onBlur={handleBlur('email')}
-                    value={values.email}
-                    keyboardType="email-address"
-                />
-                <MytextInput
-                    label="Date of birth"
-                    icon="mail"
-                    placeholder="YYYY - MM - DD"
-                    placeholderTextColor={darkLight}
-                    onChangeText={handleChange('dateOfBirth')}
-                    onBlur={handleBlur('dateOfBirth')}
-                    value={dob ? dob.toDateString() : ''}
-                    isDate = {true}
-                    editable = {false}
-                    showDatePicker = {showDatePicker}
-                />
-                <MytextInput
-                    label="Password"
-                    icon="lock"
-                    placeholder="*********"
-                    placeholderTextColor={darkLight}
-                    onChangeText={handleChange('password')}
-                    onBlur={handleBlur('password')}
-                    value={values.password}
-                    secureTextEntry={hidePassword}
-                    isPassword={true}
-                    hidePassword={hidePassword}
-                    setHidePassword={setHidePassword}
-                />
-                <MytextInput
-                    label="Confirm Password"
-                    icon="lock"
-                    placeholder="*********"
-                    placeholderTextColor={darkLight}
-                    onChangeText={handleChange('confirmPassword')}
-                    onBlur={handleBlur('confirmPassword')}
-                    value={values.confirmPassword}
-                    secureTextEntry={hidePassword}
-                    isPassword={true}
-                    hidePassword={hidePassword}
-                    setHidePassword={setHidePassword}
-                />
-                <MsgBox>...</MsgBox>
-                <StyledButton onPress={handleSubmit}>
-                    <ButtonText>
-                        Login
-                    </ButtonText>
-                </StyledButton>
-                <Line/>
-                <ExtraView>
-                    <ExtraText>Already have an accounnt?</ExtraText>
-                    <TextLink>
-                        <TextLinkContent>Login </TextLinkContent>
-                    </TextLink>
-                </ExtraView>
-            </StyledFormArea>)}
-            </Formik>
-        </InnerContainer>
-    </StyledContainer>
+                )}
+                <Formik
+                    initialValues={{ fullName: '', email: '', dateOfBirth: '', password: '', confirmPassword: '' }}
+                    onSubmit={(values) => {
+                        console.log(values);
+                    }}
+                >
+                    {({ handleChange, handleBlur, handleSubmit, values }) => (
+                        <StyledFormArea>
+                            <MyTextInput
+                                label="Full Name"
+                                icon="person"
+                                placeholder="Name"
+                                placeholderTextColor={darkLight}
+                                onChangeText={handleChange('fullName')}
+                                onBlur={handleBlur('fullName')}
+                                value={values.fullName}
+                            />
+                            <MyTextInput
+                                label="Email"
+                                icon="mail"
+                                placeholder="yourmail@gmail.com"
+                                placeholderTextColor={darkLight}
+                                onChangeText={handleChange('email')}
+                                onBlur={handleBlur('email')}
+                                value={values.email}
+                                keyboardType="email-address"
+                            />
+                            <MyTextInput
+                                label="Date of birth"
+                                icon="calendar"
+                                placeholder="YYYY - MM - DD"
+                                placeholderTextColor={darkLight}
+                                onChangeText={handleChange('dateOfBirth')}
+                                onBlur={handleBlur('dateOfBirth')}
+                                value={dob}
+                                isDate={true}
+                                editable={false}
+                                showDatePicker={showDatePicker}
+                            />
+                            <MyTextInput
+                                label="Password"
+                                icon="lock"
+                                placeholder="*********"
+                                placeholderTextColor={darkLight}
+                                onChangeText={handleChange('password')}
+                                onBlur={handleBlur('password')}
+                                value={values.password}
+                                secureTextEntry={hidePassword}
+                                isPassword={true}
+                                hidePassword={hidePassword}
+                                setHidePassword={setHidePassword}
+                            />
+                            <MyTextInput
+                                label="Confirm Password"
+                                icon="lock"
+                                placeholder="*********"
+                                placeholderTextColor={darkLight}
+                                onChangeText={handleChange('confirmPassword')}
+                                onBlur={handleBlur('confirmPassword')}
+                                value={values.confirmPassword}
+                                secureTextEntry={hidePassword}
+                                isPassword={true}
+                                hidePassword={hidePassword}
+                                setHidePassword={setHidePassword}
+                            />
+                            <MsgBox>...</MsgBox>
+                            <StyledButton onPress={handleSubmit}>
+                                <ButtonText>Register</ButtonText>
+                            </StyledButton>
+                            <Line />
+                            <ExtraView>
+                                <ExtraText>Already have an account?</ExtraText>
+                                <TextLink>
+                                    <TextLinkContent>Login</TextLinkContent>
+                                </TextLink>
+                            </ExtraView>
+                        </StyledFormArea>
+                    )}
+                </Formik>
+            </InnerContainer>
+        </StyledContainer>
+    );
+};
 
-  )
-}
-const MytextInput = (label,icon,isPassword,hidePassword,setHidePassword,showDatePicker, ...props) => {
+const MyTextInput = ({ label, icon, isPassword, hidePassword, setHidePassword, isDate, showDatePicker, ...props }) => {
     return (
         <View>
             <LeftIcon>
-                <Octicons name={icon} size = {30} color={brand}/>
+                <Octicons name={icon} size={30} color={brand} />
             </LeftIcon>
             <StyledInputLabel>{label}</StyledInputLabel>
-            <StyledTextInput {...props}/>
-            {!isDate && <StyledTextInput {...props}/>}
+            {!isDate && <StyledTextInput {...props} />}
             {isDate && (
                 <TouchableOpacity onPress={showDatePicker}>
-                    <StyledTextInput {...props}/>
+                    <StyledTextInput {...props} />
                 </TouchableOpacity>
             )}
             {isPassword && (
-                <RightIcon onPress={()=>setHidePassword('hidePassword')}>
-                    <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size = {30} color={darkLight}/>
+                <RightIcon onPress={() => setHidePassword(!hidePassword)}>
+                    <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={30} color={darkLight} />
                 </RightIcon>
             )}
         </View>
-    )
-}
-export default Register
+    );
+};
+
+export default Register;
