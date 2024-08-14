@@ -5,7 +5,6 @@ import {Formik} from 'formik'
 
 import {Octicons, Ionicons,Fontisto} from '@expo/vector-icons'
 
-import {Colors} from '../components/styles.jsx'
 import {
     StyledContainer,
     InnerContainer,
@@ -27,8 +26,6 @@ import {
     TextLink,
     TextLinkContent
 } from '../components/styles'
-import { View } from 'react-native'
-import { useState } from 'react'
 
 const{ brand,darkLight, primary } = Colors;
 
@@ -42,7 +39,7 @@ const Register = () => {
             <PageTitle>Flower Crib</PageTitle>
             <SubTitle>Account Register</SubTitle>
             <Formik
-                initialValues={{fullName:'', email:'',dateOfBirth:'',npx expo install @react-native-community/datetimepicker password:''}}
+                initialValues={{fullName:'', email:'',dateOfBirth:'', password:''}}
                 onSubmit={(values) =>{
                     console.log(values)
                 }}

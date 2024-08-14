@@ -5,7 +5,6 @@ import {Formik} from 'formik'
 
 import {Octicons, Ionicons,Fontisto} from '@expo/vector-icons'
 
-import {Colors} from '../components/styles.jsx'
 import {
     StyledContainer,
     InnerContainer,
@@ -17,18 +16,16 @@ import {
     StyledInputLabel,
     StyledTextInput,
     RightIcon,
-    Colors,
     StyledButton,
     ButtonText,
     MsgBox,
     Line,
+    Colors,
     ExtraView,
     ExtraText,
     TextLink,
     TextLinkContent
 } from '../components/styles'
-import { View } from 'react-native'
-import { useState } from 'react'
 
 const{ brand,darkLight, primary } = Colors;
 
