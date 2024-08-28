@@ -1,112 +1,49 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { Formik } from 'formik';
-import { Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
+import React from 'react';
+import { View, Text, ImageBackground, TextInput, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context'; 
+import tw from 'twrnc'; 
+import { useNavigation } from '@react-navigation/native';
 
-import {
-    StyledContainer,
-    InnerContainer,
-    PageLogo,
-    PageTitle,
-    SubTitle,
-    StyledFormArea,
-    LeftIcon,
-    StyledInputLabel,
-    StyledTextInput,
-    RightIcon,
-    Colors,
-    StyledButton,
-    ButtonText,
-    MsgBox,
-    Line,
-    ExtraView,
-    ExtraText,
-    TextLink,
-    TextLinkContent
-} from '../components/styles';
+import backgroundImage from '../assets/customs.png';
 
-const { brand, darkLight, primary } = Colors;
+const Login = ({ route }) => {
+  const navigation = useNavigation();
 
-const Login = () => {
-    const [hidePassword, setHidePassword] = useState(true);
+  const handleLogin = () => {
+    // Navigate to the OTP verification screen
+    navigation.navigate('OtpVerification');
+  };
 
-    return (
-        <StyledContainer>
-            <StatusBar style="dark" />
-            <InnerContainer>
-                <PageLogo resizeMode="cover" source={require('./../assets/icon.png')} />
-                <PageTitle>Flower Crib</PageTitle>
-                <SubTitle>Account Login</SubTitle>
-                <Formik
-                    initialValues={{ email: '', password: '' }}
-                    onSubmit={(values) => {
-                        console.log(values);
-                    }}
-                >
-                    {({ handleChange, handleBlur, handleSubmit, values }) => (
-                        <StyledFormArea>
-                            <MyTextInput
-                                label="Email"
-                                icon="mail"
-                                placeholder="yourmail@gmail.com"
-                                placeholderTextColor={darkLight}
-                                onChangeText={handleChange('email')}
-                                onBlur={handleBlur('email')}
-                                value={values.email}
-                                keyboardType="email-address"
-                            />
-                            <MyTextInput
-                                label="Password"
-                                icon="lock"
-                                placeholder="*********"
-                                placeholderTextColor={darkLight}
-                                onChangeText={handleChange('password')}
-                                onBlur={handleBlur('password')}
-                                value={values.password}
-                                secureTextEntry={hidePassword}
-                                isPassword={true}
-                                hidePassword={hidePassword}
-                                setHidePassword={setHidePassword}
-                            />
-                            <MsgBox>...</MsgBox>
-                            <StyledButton onPress={handleSubmit}>
-                                <ButtonText>Login</ButtonText>
-                            </StyledButton>
-                            <Line />
-                            <StyledButton google={true} onPress={handleSubmit}>
-                                <Fontisto name="google" size={25} color={primary} />
-                                <ButtonText google={true}>Sign in with Google</ButtonText>
-                            </StyledButton>
-                            <ExtraView>
-                                <ExtraText>Don't have an account already?</ExtraText>
-                                <TextLink>
-                                    <TextLinkContent>Sign up</TextLinkContent>
-                                </TextLink>
-                            </ExtraView>
-                        </StyledFormArea>
-                    )}
-                </Formik>
-            </InnerContainer>
-        </StyledContainer>
-    );
-};
-
-const MyTextInput = ({ label, icon, isPassword, hidePassword, setHidePassword, ...props }) => {
-    return (
-        <View>
-            <LeftIcon>
-                <Octicons name={icon} size={30} color={brand} />
-            </LeftIcon>
-            <StyledInputLabel>{label}</StyledInputLabel>
-            <StyledTextInput {...props} />
-            {isPassword && (
-                <RightIcon onPress={() => setHidePassword(!hidePassword)}>
-                    <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={30} color={darkLight} />
-                </RightIcon>
-            )}
+  return (
+    <SafeAreaView style={tw`flex-1`}>
+      <ImageBackground 
+        source={backgroundImage}  
+        style={tw`flex-1 justify-center`} 
+        resizeMode="cover" 
+      >
+        <View style={tw`flex-1 justify-center items-center p-5 bg-black/30`}>
+          <Text style={tw`text-3xl text-white mb-5`}>Login</Text>
+          <TextInput 
+            style={tw`w-4/5 p-3 mb-5 rounded bg-white/80 text-black`} 
+            placeholder="Email" 
+            placeholderTextColor="#ccc"
+          />
+          <TextInput 
+            style={tw`w-4/5 p-3 mb-5 rounded bg-white/80 text-black`} 
+            placeholder="Password" 
+            placeholderTextColor="#ccc" 
+            secureTextEntry 
+          />
+          <TouchableOpacity 
+            style={tw`w-4/5 p-3 bg-blue-600 rounded`} 
+            onPress={handleLogin}
+          >
+            <Text style={tw`text-white text-center`}>Login</Text>
+          </TouchableOpacity>
         </View>
-    );
+      </ImageBackground>
+    </SafeAreaView>
+  );
 };
 
 export default Login;

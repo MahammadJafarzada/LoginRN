@@ -1,12 +1,12 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import Register from './screens/Register';
+import AppNavigator from './AppNavigator/AppNavigation'; // Import the navigator
 
 export default function App() {
-    return (
-        <>
-            <StatusBar style="dark" />
-            <Register />
-        </>
-    );
+  return (
+    <>
+      <StatusBar style="dark" />
+      <AppNavigator /> 
+    </>
+  );
 }
